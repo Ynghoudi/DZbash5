@@ -1,0 +1,20 @@
+#!/bin/bash
+
+function to_twos_complement() {
+  local num="$1"
+  local bits=8 # Для однобайтовых целых
+  local result=$(printf "%0${bits}d" $(($num < 0 ? (1 << $bits) + $num : $num)))
+  echo $result
+}
+
+function add_twos_complement() {
+  local num1="$1"
+  local num2="$2"
+  local sum=$(($(to_twos_complement $num1) + $(to_twos_complement $num2)))
+  echo $(to_twos_complement $sum)
+}
+
+echo "79 + (-46) = $(add_twos_complement 79 -46)"
+echo "(-97) + 96 = $(add_twos_complement -97 96)"
+
+echo "12868 + (-1219) = $(add_twos_complement 12868 -1219)" 
